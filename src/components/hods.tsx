@@ -1,0 +1,347 @@
+"use client";
+
+import { useRef, useEffect } from "react";
+import { motion } from "framer-motion";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
+
+/* -----------------------------------------------
+   HODs - LEADERSHIP SECTION (REVISED V3)
+   
+   Fixes:
+   1. Text is now darker (more visible).
+   2. Images are layered ON TOP of text during scroll.
+   ----------------------------------------------- */
+export const HODs = () => {
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+
+    const isMobile = window.innerWidth < 768;
+
+    const ctx = gsap.context(() => {
+      if (isMobile) {
+        // Mobile: Simple stagger
+        gsap.set('.hod-card-item', { y: 40, opacity: 0 });
+        gsap.to('.hod-card-item', {
+          y: 0,
+          opacity: 1,
+          stagger: 0.15,
+          duration: 0.6,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 75%',
+            toggleActions: 'play none none none',
+          },
+        });
+        return;
+      }
+
+      // Desktop: Complex Animation Sequence
+      
+      // --- INITIAL STATES ---
+      
+      // 1. Text is Big
+      gsap.set('.hero-text', { scale: 1, opacity: 1 });
+      
+      // 2. Dean starts LOWER than center (below viewport)
+      gsap.set('.hod-main', { y: '60vh', opacity: 0 });
+      
+      // 3. Side cards start at center, but INVISIBLE and small
+      gsap.set('.hod-side-left', { opacity: 0, scale: 0.8 });
+      gsap.set('.hod-side-right', { opacity: 0, scale: 0.8 });
+      
+      // 4. Info cards start hidden
+      gsap.set('.hod-card-info', { y: 20, opacity: 0 });
+
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: el,
+          start: 'top top',
+          end: '+=2500',
+          scrub: 1,
+          pin: true,
+        },
+      });
+
+      // --- ANIMATION SEQUENCE ---
+
+      // Phase 1: Text shrinks to Top + Dean Rises to Center (Happens together)
+      tl.to('.hero-text', {
+        scale: 0.15,     
+        y: '-35vh',      
+        opacity: 1,
+        ease: 'power2.inOut',
+        duration: 2
+      }, 0);
+
+      tl.to('.hod-main', {
+        y: 0,           
+        opacity: 1,
+        ease: 'power2.out',
+        duration: 2
+      }, 0); 
+
+      // Phase 2: Side Cards Emerge
+      tl.to('.hod-side-left', {
+        opacity: 1,
+        scale: 1,
+        ease: 'back.out(1.7)', 
+        duration: 1.5
+      }, 1.2);
+
+      tl.to('.hod-side-right', {
+        opacity: 1,
+        scale: 1,
+        ease: 'back.out(1.7)',
+        duration: 1.5
+      }, 1.2); 
+
+      // Phase 3: Info Text appears
+      tl.to('.hod-card-info', {
+        y: 0,
+        opacity: 1,
+        stagger: 0.1,
+        duration: 1
+      }, 2); 
+
+    }, el);
+
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <section
+      ref={sectionRef}
+      className="relative bg-gradient-to-br from-zinc-50 via-white to-zinc-100 overflow-hidden"
+    >
+      {/* Decorative SVG Background */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <svg className="absolute h-full w-full" preserveAspectRatio="none">
+          <path
+            d="M0,200 Q300,100 600,300 T1200,200"
+            fill="none"
+            stroke="url(#lineGrad1)"
+            strokeWidth="0.5"
+            opacity="0.3"
+          />
+          <path
+            d="M0,400 Q400,500 800,300 T1200,450"
+            fill="none"
+            stroke="url(#lineGrad2)"
+            strokeWidth="0.3"
+            opacity="0.2"
+          />
+          <defs>
+            <linearGradient id="lineGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#d4a373" stopOpacity="0" />
+              <stop offset="50%" stopColor="#d4a373" stopOpacity="0.8" />
+              <stop offset="100%" stopColor="#d4a373" stopOpacity="0" />
+            </linearGradient>
+            <linearGradient id="lineGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#a78bfa" stopOpacity="0" />
+              <stop offset="50%" stopColor="#a78bfa" stopOpacity="0.6" />
+              <stop offset="100%" stopColor="#a78bfa" stopOpacity="0" />
+            </linearGradient>
+          </defs>
+        </svg>
+        <div 
+          className="absolute inset-0 opacity-[0.02]"
+          style={{
+            backgroundImage: `radial-gradient(circle at 1px 1px, #000 1px, transparent 1px)`,
+            backgroundSize: '50px 50px'
+          }}
+        />
+        <div className="absolute -left-20 top-20 h-64 w-64 rounded-full bg-amber-200/15 blur-3xl" />
+        <div className="absolute -right-20 bottom-20 h-80 w-80 rounded-full bg-purple-200/15 blur-3xl" />
+      </div>
+
+      {/* --- MOBILE LAYOUT --- */}
+      <div className="relative flex flex-col items-center gap-8 py-20 md:hidden">
+        <motion.p
+          className="relative mb-6 text-center text-xs font-light uppercase tracking-[0.5em] text-zinc-500"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
+          <span className="relative inline-block">
+            The People Behind
+            <span className="absolute -bottom-2 left-1/2 h-px w-12 -translate-x-1/2 bg-gradient-to-r from-transparent via-amber-300 to-transparent" />
+          </span>
+        </motion.p>
+
+        <HODCard
+          name="Dr. Rajesh K. Sharma"
+          role="Dean & Director"
+          caption="Inspire Curiosity"
+          img="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=500&h=650&fit=crop&crop=face"
+          isMain
+          mobile
+        />
+        <HODCard
+          name="Dr. Priya Mehta"
+          role="Head - Dept. of Computer Applications"
+          caption="Empower Future Builders"
+          img="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=500&h=650&fit=crop&crop=face"
+          mobile
+        />
+        <HODCard
+          name="Prof. Anil Verma"
+          role="Head - Dept. of Management Studies"
+          caption="Lead with Purpose"
+          img="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=500&h=650&fit=crop&crop=face"
+          mobile
+        />
+      </div>
+
+      {/* --- DESKTOP LAYOUT --- */}
+      <div className="hidden md:block h-screen w-full relative">
+        
+        {/* 
+           The "Hero" Text 
+           z-10: Lower than cards
+           Darker Gradient: from-zinc-500 to-zinc-300
+        */}
+        <div className="hero-text absolute inset-0 flex items-center justify-center pointer-events-none z-10">
+          <h1 className="text-[9vw] font-bold text-transparent bg-clip-text bg-gradient-to-b from-zinc-500 to-zinc-300 tracking-tighter leading-none select-none w-full text-center">
+            THE PEOPLE BEHIND
+          </h1>
+        </div>
+
+        {/* 
+           The Cards Container 
+           z-30: Higher than text (z-10), ensuring images are ON TOP during scroll
+        */}
+        <div className="absolute inset-0 flex items-center justify-center z-30">
+          
+          <div className="relative h-full w-full flex items-center justify-center">
+            
+            {/* Left: M.Sc IT HOD */}
+            <div
+              className="hod-side-left hod-card-item absolute left-1/2 top-1/2 w-[230px] -translate-x-1/2 -translate-y-1/2"
+              style={{ marginLeft: '-310px', zIndex: 5 }}
+            >
+              <HODCard
+                name="Dr. Shamina Ansari"
+                role="Head - Dept. of Computer Applications"
+                caption="Think Bold, Act Bold"
+                img="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=500&h=650&fit=crop&crop=face"
+              />
+            </div>
+
+            {/* Center: Dean & Director */}
+            <div
+              className="hod-main hod-card-item absolute left-1/2 top-1/2 w-[280px] -translate-x-1/2 -translate-y-1/2"
+              style={{ zIndex: 10 }}
+            >
+              <HODCard
+                name="Dr. paavan pandit"
+                role="Dean & Director"
+                caption="Lead by Example"
+                img="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=500&h=650&fit=crop&crop=face"
+                isMain
+              />
+            </div>
+
+            {/* Right: MBA HOD */}
+            <div
+              className="hod-side-right hod-card-item absolute left-1/2 top-1/2 w-[230px] -translate-x-1/2 -translate-y-1/2"
+              style={{ marginLeft: '310px', zIndex: 5 }}
+            >
+              <HODCard
+                name="Mr. Hitesh parmar"
+                role="Head - Dept. of Management Studies"
+                caption="Drive Strategic Thinking"
+                img="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=500&h=650&fit=crop&crop=face"
+              />
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* -----------------------------------------------
+   HOD CARD
+   ----------------------------------------------- */
+const HODCard = ({
+  name,
+  role,
+  caption,
+  img,
+  isMain = false,
+  mobile = false,
+}: {
+  name: string;
+  role: string;
+  caption?: string;
+  img: string;
+  isMain?: boolean;
+  mobile?: boolean;
+}) => (
+  <div className="hod-card-wrapper hod-card-item group text-center">
+    {/* Polaroid-style photo card */}
+    <div
+      className={`relative transition-all duration-500 transform ${
+        isMain ? 'rotate-1 group-hover:rotate-0' : 'rotate-3 group-hover:rotate-0'
+      } ${isMain ? 'shadow-2xl' : 'shadow-xl'}`}
+      style={mobile ? { width: isMain ? '240px' : '200px' } : undefined}
+    >
+      <div className={`bg-white rounded-2xl p-4 ${isMain ? 'ring-1 ring-amber-200/30' : 'ring-1 ring-zinc-200/30'}`}>
+        <div className="polaroid-photo overflow-hidden rounded-lg bg-muted">
+          <img
+            src={img}
+            alt={name}
+            className={`w-full h-[360px] object-cover transition-all duration-700 group-hover:scale-105`}
+            referrerPolicy="no-referrer"
+          />
+        </div>
+
+        {/* Caption strip like a Polaroid - editable text area */}
+        <div className="mt-3 bg-white pt-3 pb-4 rounded-b-md border-t border-black/5 text-center">
+          {caption ? (
+            <>
+              <p className="text-sm font-semibold text-zinc-800">{caption}</p>
+            </>
+          ) : (
+            <>
+              <p className="text-sm font-semibold text-zinc-800">{name}</p>
+              <p className="text-[11px] text-zinc-400 mt-1">{role}</p>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+    
+    <div className="hod-card-info mt-5 px-3">
+      <div className="relative mx-auto mb-3">
+        <div className="h-px w-8 bg-gradient-to-r from-transparent via-amber-300/50 to-transparent transition-all duration-300 group-hover:w-12" />
+        <div className="absolute -bottom-0.5 left-1/2 h-px w-4 -translate-x-1/2 bg-gradient-to-r from-transparent via-amber-300/30 to-transparent" />
+      </div>
+      
+      <p
+        className={`relative font-semibold tracking-tight text-zinc-800 transition-colors duration-300 group-hover:text-zinc-900 ${
+          isMain ? 'text-base' : 'text-sm'
+        }`}
+      >
+        <span className="relative inline-block">
+          {name}
+          <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-gradient-to-r from-transparent via-amber-400 to-transparent transition-all duration-500 group-hover:w-full" />
+        </span>
+      </p>
+      
+      <p className="mt-1 text-[9px] font-light uppercase tracking-[0.18em] text-zinc-400 transition-colors duration-300 group-hover:text-zinc-500">
+        {role}
+      </p>
+    </div>
+  </div>
+);
