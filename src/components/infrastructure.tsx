@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, startTransition } from "react";
+import React, { useState, useEffect, startTransition, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
 
@@ -310,4 +310,13 @@ const Infrastructure = () => {
   );
 };
 
-export default Infrastructure;
+// Wrapped in Suspense because Infrastructure uses useSearchParams(),
+// which Next.js requires to be inside a Suspense boundary so the
+// route doesn't fail static prerendering.
+const InfrastructurePage = () => (
+  <Suspense fallback={null}>
+    <Infrastructure />
+  </Suspense>
+);
+
+export default InfrastructurePage;
