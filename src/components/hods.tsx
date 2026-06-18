@@ -180,7 +180,6 @@ export const HODs = () => {
         <HODCard
           name="Dr. Rajesh K. Sharma"
           role="Dean & Director"
-          caption="Inspire Curiosity"
           img="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=500&h=650&fit=crop&crop=face"
           isMain
           mobile
@@ -188,14 +187,12 @@ export const HODs = () => {
         <HODCard
           name="Dr. Priya Mehta"
           role="Head - Dept. of Computer Applications"
-          caption="Empower Future Builders"
           img="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=500&h=650&fit=crop&crop=face"
           mobile
         />
         <HODCard
           name="Prof. Anil Verma"
           role="Head - Dept. of Management Studies"
-          caption="Lead with Purpose"
           img="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=500&h=650&fit=crop&crop=face"
           mobile
         />
@@ -231,7 +228,6 @@ export const HODs = () => {
               <HODCard
                 name="Dr. Shamina Ansari"
                 role="Head - Dept. of Computer Applications"
-                caption="Think Bold, Act Bold"
                 img="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=500&h=650&fit=crop&crop=face"
               />
             </div>
@@ -244,7 +240,6 @@ export const HODs = () => {
               <HODCard
                 name="Dr. paavan pandit"
                 role="Dean & Director"
-                caption="Lead by Example"
                 img="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=500&h=650&fit=crop&crop=face"
                 isMain
               />
@@ -258,7 +253,6 @@ export const HODs = () => {
               <HODCard
                 name="Mr. Hitesh parmar"
                 role="Head - Dept. of Management Studies"
-                caption="Drive Strategic Thinking"
                 img="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=500&h=650&fit=crop&crop=face"
               />
             </div>
@@ -276,50 +270,41 @@ export const HODs = () => {
 const HODCard = ({
   name,
   role,
-  caption,
   img,
   isMain = false,
   mobile = false,
 }: {
   name: string;
   role: string;
-  caption?: string;
   img: string;
   isMain?: boolean;
   mobile?: boolean;
 }) => (
   <div className="hod-card-wrapper hod-card-item group text-center">
-    {/* Polaroid-style photo card */}
     <div
-      className={`relative transition-all duration-500 transform ${
-        isMain ? 'rotate-1 group-hover:rotate-0' : 'rotate-3 group-hover:rotate-0'
-      } ${isMain ? 'shadow-2xl' : 'shadow-xl'}`}
-      style={mobile ? { width: isMain ? '240px' : '200px' } : undefined}
+      className={`relative overflow-hidden rounded-2xl transition-all duration-500 ${
+        isMain
+          ? 'shadow-2xl shadow-amber-100/40 ring-1 ring-amber-200/30'
+          : 'shadow-xl shadow-zinc-200/30 ring-1 ring-zinc-200/30'
+      }`}
     >
-      <div className={`bg-white rounded-2xl p-4 ${isMain ? 'ring-1 ring-amber-200/30' : 'ring-1 ring-zinc-200/30'}`}>
-        <div className="polaroid-photo overflow-hidden rounded-lg bg-muted">
-          <img
-            src={img}
-            alt={name}
-            className={`w-full h-[360px] object-cover transition-all duration-700 group-hover:scale-105`}
-            referrerPolicy="no-referrer"
-          />
-        </div>
-
-        {/* Caption strip like a Polaroid - editable text area */}
-        <div className="mt-3 bg-white pt-3 pb-4 rounded-b-md border-t border-black/5 text-center">
-          {caption ? (
-            <>
-              <p className="text-sm font-semibold text-zinc-800">{caption}</p>
-            </>
-          ) : (
-            <>
-              <p className="text-sm font-semibold text-zinc-800">{name}</p>
-              <p className="text-[11px] text-zinc-400 mt-1">{role}</p>
-            </>
-          )}
-        </div>
-      </div>
+      <div className="absolute inset-0 rounded-2xl border border-transparent bg-gradient-to-br from-amber-300/0 via-amber-300/0 to-amber-300/0 transition-all duration-500 group-hover:from-amber-300/20 group-hover:via-transparent group-hover:to-purple-300/20" />
+      
+      <div className="absolute left-2 top-2 h-3 w-3 border-l border-t border-amber-300/0 transition-all duration-300 group-hover:border-amber-300/40" />
+      <div className="absolute right-2 top-2 h-3 w-3 border-r border-t border-amber-300/0 transition-all duration-300 group-hover:border-amber-300/40" />
+      <div className="absolute bottom-2 left-2 h-3 w-3 border-b border-l border-amber-300/0 transition-all duration-300 group-hover:border-amber-300/40" />
+      <div className="absolute bottom-2 right-2 h-3 w-3 border-b border-r border-amber-300/0 transition-all duration-300 group-hover:border-amber-300/40" />
+      
+      <img
+        src={img}
+        alt={name}
+        className={`hod-card-photo w-full object-cover transition-all duration-700 group-hover:scale-105 aspect-[3/4]`}
+        style={mobile ? { width: isMain ? '240px' : '200px' } : undefined}
+        referrerPolicy="no-referrer"
+      />
+      
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/15 via-black/3 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+      <div className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent transition-transform duration-1000 group-hover:translate-x-full" />
     </div>
     
     <div className="hod-card-info mt-5 px-3">

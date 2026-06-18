@@ -1,12 +1,15 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { ReactLenis } from "lenis/dist/lenis-react";
 import { Nav } from "@/components/nav";
 import { CurtainFooter } from "@/components/curtain-footer";
 import { motion } from "framer-motion";
 
 export default function MBAPage() {
+  useEffect(() => {
+    if (typeof window !== "undefined") window.scrollTo(0, 0);
+  }, []);
   const image = "https://source.unsplash.com/1600x900/?business,leadership,team";
   return (
     <div className="bg-white min-h-screen text-[#111111]">

@@ -196,7 +196,7 @@ export const EventsContent = () => (
       </div>
 
       {/* Bottom Stats - Compact */}
-      <motion.div variants={itemVariants} className="mt-5 pt-5 border-t border-gray-200 grid grid-cols-4 gap-4">
+      <motion.div variants={itemVariants} className="mt-5 pt-5 border-t border-gray-200 grid grid-cols-2 md:grid-cols-4 gap-4">
         {[
           { icon: Sparkles, value: "8", label: "Cultural", color: "text-rose-500" },
           { icon: Music, value: "12", label: "Music", color: "text-blue-500" },

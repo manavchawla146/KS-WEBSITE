@@ -177,7 +177,6 @@ const Infrastructure = () => {
                   <motion.div
                     id={item.id}
                     key={item.id}
-                    layoutId={`card-${item.id}`} 
                     className="relative aspect-video rounded-xl overflow-hidden cursor-pointer group border border-white/10 bg-neutral-900"
                     onClick={() => setActive(item)}
                     whileTap={{ scale: 0.95 }}
@@ -270,17 +269,17 @@ const Infrastructure = () => {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 20 }}
                   transition={{ delay: 0.1 }}
-                  className="pointer-events-auto"
+                  className="pointer-events-auto text-white md:text-black"
                 >
                   <span className="inline-block py-1 px-3 rounded-full border border-black/10 bg-neutral-100 text-[10px] uppercase tracking-widest text-neutral-600 mb-6 backdrop-blur-sm font-['Inter']">
                       {active.label}
                   </span>
                   
-                  <h3 className="text-3xl md:text-6xl font-['Playfair_Display'] font-bold text-black mb-6 leading-tight">
+                  <h3 className="text-3xl md:text-6xl font-['Playfair_Display'] font-bold text-white md:text-black mb-6 leading-tight">
                     {active.title}
                   </h3>
                   
-                  <p className="text-neutral-600 text-sm md:text-lg leading-relaxed mb-8 font-light border-l-2 border-black/20 pl-6 font-['Inter']">
+                  <p className="text-white md:text-neutral-600 text-sm md:text-lg leading-relaxed mb-8 font-light border-l-2 border-black/20 pl-6 font-['Inter']">
                     {active.desc}
                   </p>
 

@@ -62,22 +62,19 @@ export const CurtainFooter = () => {
   }, []);
   return (
     <div
-      className="relative h-[800px]"
+      className="relative md:h-[800px] h-auto"
       style={{ clipPath: "polygon(0% 0, 100% 0%, 100% 100%, 0 100%)" }}
     >
-      <div className="fixed bottom-0 h-[800px] w-full">
+      <div className="w-full md:fixed md:bottom-0 md:h-[800px]">
         <div className="bg-[#0a0a0a] text-[#a1a1aa] h-full flex flex-col justify-between p-8 md:p-16 lg:p-24">
 
           {/* Grain texture */}
           <div className="absolute inset-0 opacity-[0.04] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] bg-repeat pointer-events-none" />
 
-          {/* Small logo lockup above the top section */}
-          <div className="relative z-10 flex items-start">
-            <img src="/ks-logo.png" alt="KS lockup" className="h-10 opacity-90 mb-6" />
-          </div>
+          {/* top spacing (logo removed for cleaner footer) */}
 
           {/* Top section */}
-          <div className="relative z-10 flex flex-col md:flex-row justify-between items-center gap-10">
+          <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-10">
             <div className="flex flex-col items-start md:w-1/2">
               <div className="flex items-center gap-6">
                 <h2 className="text-7xl md:text-[6.5rem] leading-none font-extrabold text-white">KS</h2>
@@ -92,8 +89,7 @@ export const CurtainFooter = () => {
                 <div>&amp; Information Technology</div>
                 <div className="mt-1 text-sm text-zinc-400">Gujarat, India</div>
               </div>
-              {/* Small logo lockup (kept for layout - hidden on md where we show the top logo) */}
-              <img src="/ks-logo.png" alt="KS lockup" className="mt-6 h-12 opacity-90 md:hidden" />
+              {/* small spacer (logo removed) */}
             </div>
 
             <div className="hidden md:block text-right space-y-2 md:w-1/2">
