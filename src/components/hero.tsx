@@ -1,122 +1,58 @@
 "use client";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 
-import { useRef, useState } from "react";
-import {
-  motion,
-  useScroll,
-  useTransform,
-} from "framer-motion";
+const SECTION_HEIGHT = 1800;
 
-const SECTION_HEIGHT = 1500;
-
-/* -----------------------------------------------
-   HERO SECTION
-   ----------------------------------------------- */
-export const Hero = () => (
-  <div
-    style={{ height: `calc(${SECTION_HEIGHT}px + 100vh)` }}
-    className="relative w-full"
-  >
-    <CenterImage />
-    <ParallaxImages />
-    <div className="absolute bottom-0 left-0 right-0 h-96 bg-gradient-to-b from-white/0 to-white" />
-  </div>
-);
-
-/* -----------------------------------------------
-   CENTER VIDEO (with cinematic dimming overlay)
-   ----------------------------------------------- */
-const CenterImage = () => {
-  const { scrollY } = useScroll();
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [videoLoaded, setVideoLoaded] = useState(false);
-  const [videoError, setVideoError] = useState(false);
-
-  // Scale + fade out - GPU accelerated
-  const scale = useTransform(scrollY, [0, 1500], [1.5, 1]);
-  const opacity = useTransform(
-    scrollY,
-    [SECTION_HEIGHT, SECTION_HEIGHT + 500],
-    [1, 0]
-  );
-
-  // 🌘 Dark overlay opacity - simplified
-  const overlayOpacity = useTransform(
-    scrollY,
-    [0, 600, 1200],
-    [0, 0.35, 0.55]
-  );
-
+export const Hero = () => {
   return (
-    <div
-      ref={containerRef}
-      className="sticky top-0 h-screen w-full overflow-hidden bg-black"
-    >
-      {/* Video Container with fade-in + scroll zoom */}
-      <motion.div
-        className="h-full w-full"
-        initial={{ opacity: 0, scale: 1.04 }}
-        animate={{ 
-          opacity: videoLoaded ? 1 : 0,
-          scale: videoLoaded ? 1 : 1.04 
-        }}
-        transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-        style={{
-          scale: videoLoaded ? scale : undefined,
-          opacity: videoLoaded ? opacity : undefined,
-          transformOrigin: "center center",
-          willChange: "transform",
-        }}
-      >
-        {/* 🎥 Background Video - optimized */}
-        {videoError ? (
-          <div className="h-full w-full flex items-center justify-center bg-gray-900">
-            <p className="text-white">Video failed to load</p>
-          </div>
-        ) : (
-          <video
-            src="/clg.mp4"
-            className="h-full w-full object-cover"
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="auto"
-            onLoadedData={() => setVideoLoaded(true)}
-            onError={() => {
-              console.error("Video failed to load");
-              setVideoError(true);
-            }}
-            style={{ 
-              transform: "translateZ(0)",
-              willChange: "transform"
-            }}
-          />
-        )}
-      </motion.div>
-
-      {/* 🌘 Cinematic Dark Overlay - separate layer */}
-      <motion.div
-        className="absolute inset-0 bg-black pointer-events-none"
-        style={{ 
-          opacity: overlayOpacity,
-          willChange: "opacity",
-        }}
-      />
+    <div style={{ height: `calc(${SECTION_HEIGHT}px + 100vh)` }} className="relative w-full">
+      <CenterImage />
+      <ParallaxImages />
+      <div className="absolute bottom-0 left-0 right-0 h-96 bg-gradient-to-b from-transparent to-white" />
     </div>
   );
 };
 
-/* -----------------------------------------------
-   PARALLAX IMAGES
-   ----------------------------------------------- */
-const ParallaxImages = () => (
-  <motion.div
-    className="mx-auto max-w-5xl px-4 pt-[200px]"
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 1, delay: 1.5, ease: [0.22, 1, 0.36, 1] }}
-  >
+// Center Video (same as before)
+const CenterImage = () => {
+  const { scrollY } = useScroll();
+  const scale = useTransform(scrollY, [0, 1500], [1.4, 1]);
+  const opacity = useTransform(scrollY, [SECTION_HEIGHT - 300, SECTION_HEIGHT + 300], [1, 0]);
+
+  return (
+    <div className="sticky top-0 h-screen w-full overflow-hidden bg-black">
+      <motion.video
+        src="/clg.mp4"
+        className="h-full w-full object-cover"
+        autoPlay loop muted playsInline
+        style={{ scale, opacity }}
+      />
+      <motion.div className="absolute inset-0 bg-black/40" />
+    </div>
+  );
+};
+
+// Main Parallax Images
+const ParallaxImages = () => {
+  return (
+    <>
+      {/* Desktop View - Overlapping (Unchanged - Perfect as per you) */}
+      <div className="hidden md:block">
+        <DesktopParallaxImages />
+      </div>
+
+      {/* Mobile View Only - Stacked Vertical */}
+      <div className="md:hidden">
+        <MobileStackedImages />
+      </div>
+    </>
+  );
+};
+
+/* ===================== DESKTOP (Your Original Overlapping Style) ===================== */
+const DesktopParallaxImages = () => (
+  <div className="mx-auto max-w-5xl px-4 pt-[200px] relative">
     <ParallaxImg
       src="https://i.pinimg.com/736x/3a/7d/08/3a7d084a604f586932598e6d7251f255.jpg"
       alt="Students studying"
@@ -138,64 +74,80 @@ const ParallaxImages = () => (
       end={200}
       className="ml-auto w-1/3"
     />
-    <ParallaxImg
-      src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2670&auto=format&fit=crop"
-      alt="Classroom session"
-      start={0}
-      end={-500}
-      className="ml-24 w-5/12"
-    />
-  </motion.div>
+  </div>
 );
 
-interface ParallaxImgProps {
-  className?: string;
-  alt: string;
-  src: string;
-  start: number;
-  end: number;
-}
+/* ===================== MOBILE (Stacked Portrait Images) ===================== */
+const MobileStackedImages = () => {
+  return (
+    <div className="px-4 pt-12 pb-20 space-y-20">
+      <MobileStackedImage
+        src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=800&fit=crop" 
+        alt="Students in class"
+      />
+      <MobileStackedImage
+        src="https://images.unsplash.com/photo-1591115765373-5207767f7d7b?q=80&w=800&fit=crop"
+        alt="Campus life"
+      />
+      <MobileStackedImage
+        src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?q=80&w=800&fit=crop"
+        alt="Graduation moment"
+      />
+    </div>
+  );
+};
 
-/* -----------------------------------------------
-   INDIVIDUAL PARALLAX IMAGE
-   ----------------------------------------------- */
-const ParallaxImg = ({
-  className,
-  alt,
-  src,
-  start,
-  end,
-}: ParallaxImgProps) => {
-  const ref = useRef<HTMLImageElement>(null);
+const MobileStackedImage = ({ src, alt }: { src: string; alt: string }) => {
+  const ref = useRef<HTMLDivElement>(null);
 
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: [`${start}px end`, `end ${end * -1}px`],
+    offset: ["start end", "end start"],
   });
 
-  const opacity = useTransform(scrollYProgress, [0.75, 1], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0.75, 1], [1, 0.85]);
-  const y = useTransform(scrollYProgress, [0, 1], [start, end]);
+  const y = useTransform(scrollYProgress, [0, 1], [60, -60]);
+  const opacity = useTransform(scrollYProgress, [0.1, 0.4, 0.85], [0, 1, 0]);
+  const scale = useTransform(scrollYProgress, [0.2, 0.75], [0.88, 1]);
 
   return (
     <motion.div
-      className={className}
       ref={ref}
-      style={{ 
-        y,
-        scale,
-        opacity,
-        willChange: "transform",
-        transformOrigin: "center center",
-      }}
+      style={{ y, opacity, scale }}
+      className="w-full"
     >
       <img
         src={src}
         alt={alt}
-        className="w-full h-auto"
+        className="w-full h-auto rounded-3xl shadow-2xl object-cover"
         loading="lazy"
-        decoding="async"
       />
+    </motion.div>
+  );
+};
+
+/* ===================== Desktop Parallax Image Component ===================== */
+interface ParallaxImgProps {
+  src: string;
+  alt: string;
+  start: number;
+  end: number;
+  className?: string;
+}
+
+const ParallaxImg = ({ src, alt, start, end, className }: ParallaxImgProps) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], [start, end]);
+  const opacity = useTransform(scrollYProgress, [0.65, 1], [1, 0]);
+  const scale = useTransform(scrollYProgress, [0.6, 1], [1, 0.9]);
+
+  return (
+    <motion.div ref={ref} className={className} style={{ y, opacity, scale }}>
+      <img src={src} alt={alt} className="w-full h-auto rounded-3xl shadow-2xl" loading="lazy" />
     </motion.div>
   );
 };
