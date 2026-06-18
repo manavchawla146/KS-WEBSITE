@@ -29,7 +29,14 @@ const AnnouncementCard = ({ item }: { item: Announcement }) => {
   };
 
   const serverBaseUrl = "https://ks-server-hqsn.onrender.com";
-  const fileUrl = item.url ? `${serverBaseUrl}${item.url}` : null;
+  const buildRemoteUrl = (base: string, path?: string | null) => {
+    if (!path) return null;
+    // If path is already absolute, return it
+    if (/^https?:\/\//i.test(path)) return path;
+    // Join ensuring a single slash between base and path
+    return `${base.replace(/\/$/, '')}/${path.replace(/^\//, '')}`;
+  };
+  const fileUrl = buildRemoteUrl(serverBaseUrl, item.url);
 
   return (
     <motion.div
