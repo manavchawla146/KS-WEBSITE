@@ -17,6 +17,10 @@ const NAV_LINKS = [
   { label: "Papers", href: "/papers" },
 ];
 
+const ABOUT_LINKS = [
+  { label: "Message from Director's Desk", href: "/about/message-from-director" },
+];
+
 const FACULTY_LINKS = [
   { label: "MSc IT Faculty", href: "/faculty/msc-it" },
   { label: "MBA Faculty", href: "/faculty/mba" },
@@ -59,13 +63,29 @@ export const Nav = () => {
 
           <div className="hidden items-center gap-8 md:flex">
             {NAV_LINKS.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className="relative text-[11px] font-medium uppercase tracking-[0.2em] text-zinc-400 transition-colors duration-300 hover:text-zinc-900 after:absolute after:bottom-[-4px] after:left-0 after:h-[1px] after:w-0 after:bg-zinc-900 after:transition-all after:duration-300 hover:after:w-full"
-              >
-                {link.label}
-              </a>
+              link.label === 'About' ? (
+                <div key="about" className="relative group py-2">
+                  <button className="flex items-center gap-1 text-[11px] font-medium uppercase tracking-[0.2em] text-zinc-400 transition-colors duration-300 hover:text-zinc-900 cursor-pointer">
+                    About <FiChevronDown size={14} className="transition-transform duration-300 group-hover:rotate-180" />
+                  </button>
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 w-64 bg-white border border-zinc-200 rounded-md shadow-lg p-2 mt-2 transition-all duration-300 origin-top scale-95 opacity-0 invisible group-hover:scale-100 group-hover:opacity-100 group-hover:visible z-50">
+                    {ABOUT_LINKS.map((sublink) => (
+                      <a key={sublink.label} href={sublink.href} className="block p-3 text-[10px] font-medium uppercase tracking-wider text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50 rounded-sm transition-all">
+                        {sublink.label}
+                      </a>
+                    ))}
+                    <a href="/about" className="block p-3 text-[10px] font-medium uppercase tracking-wider text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50 rounded-sm transition-all">About K.S. School</a>
+                  </div>
+                </div>
+              ) : (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  className="relative text-[11px] font-medium uppercase tracking-[0.2em] text-zinc-400 transition-colors duration-300 hover:text-zinc-900 after:absolute after:bottom-[-4px] after:left-0 after:h-[1px] after:w-0 after:bg-zinc-900 after:transition-all after:duration-300 hover:after:w-full"
+                >
+                  {link.label}
+                </a>
+              )
             ))}
 
             {/* Faculty Dropdown */}
@@ -109,6 +129,7 @@ export const Nav = () => {
    ----------------------------------------------- */
 const MobileMenu = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
   const [facultyOpen, setFacultyOpen] = useState(false);
+  const [aboutOpen, setAboutOpen] = useState(false);
 
   return (
     <AnimatePresence>
@@ -121,17 +142,45 @@ const MobileMenu = ({ open, onClose }: { open: boolean; onClose: () => void }) =
           transition={{ duration: 0.3 }}
         >
           {NAV_LINKS.map((link, i) => (
-            <motion.a
-              key={link.label}
-              href={link.href}
-              onClick={onClose}
-              className="text-lg font-medium uppercase tracking-[0.3em] text-zinc-600 transition-colors hover:text-zinc-900"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.05 }}
-            >
-              {link.label}
-            </motion.a>
+            link.label === 'About' ? (
+              <div key="about-mobile" className="flex flex-col items-center gap-2">
+                <button
+                  onClick={() => setAboutOpen(!aboutOpen)}
+                  className="flex items-center gap-2 text-lg font-medium uppercase tracking-[0.3em] text-zinc-600 transition-colors hover:text-zinc-900 cursor-pointer"
+                >
+                  About <FiChevronDown className={`transition-transform duration-300 ${aboutOpen ? "rotate-180" : ""}`} />
+                </button>
+                <AnimatePresence>
+                  {aboutOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="flex flex-col items-center gap-3 mt-2 overflow-hidden"
+                    >
+                      {ABOUT_LINKS.map((sublink) => (
+                        <a key={sublink.label} href={sublink.href} onClick={onClose} className="text-sm font-medium uppercase tracking-[0.2em] text-zinc-400 hover:text-zinc-900 py-1">
+                          {sublink.label}
+                        </a>
+                      ))}
+                      <a href="/about" onClick={onClose} className="text-sm font-medium uppercase tracking-[0.2em] text-zinc-400 hover:text-zinc-900 py-1">About K.S. School</a>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            ) : (
+              <motion.a
+                key={link.label}
+                href={link.href}
+                onClick={onClose}
+                className="text-lg font-medium uppercase tracking-[0.3em] text-zinc-600 transition-colors hover:text-zinc-900"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.05 }}
+              >
+                {link.label}
+              </motion.a>
+            )
           ))}
 
           {/* Faculty Collapsible Option in Mobile */}

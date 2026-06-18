@@ -102,12 +102,7 @@ export default function AboutPage() {
                   <p className="text-[#111111] text-xs leading-relaxed font-medium">Gujarat University standards maintained for decades.</p>
                 </div>
 
-                <div className="md:col-span-4 bento-card bg-[#e31e24]/5 border-[#e31e24]/10 flex items-center justify-between group cursor-pointer">
-                  <span className="font-display font-bold text-[#111111]">Our History</span>
-                  <div className="w-10 h-10 rounded-full bg-[#e31e24] text-white flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <ArrowUpRight size={18} />
-                  </div>
-                </div>
+                
               </div>
             </div>
           </div>

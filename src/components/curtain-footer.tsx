@@ -167,6 +167,7 @@ export const CurtainFooter = () => {
                 {[
                   { label: "LinkedIn", href: "https://www.linkedin.com/school/k-s-school-business-management-and-information-technology/posts/?feedView=all" },
                   { label: "Instagram", href: "https://www.instagram.com/ks_mscit_official?igsh=MW5qY3B2aWtzbTMwZg==" },
+                  { label: "YouTube", href: "https://www.youtube.com/@k.s.schoolofbusinessmanage1447" }
                 ].map((s) => (
                   <a
                     key={s.label}
