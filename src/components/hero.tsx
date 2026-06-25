@@ -115,17 +115,19 @@ const MobileStackedImage = ({ src, alt }: { src: string; alt: string }) => {
   const opacity = useTransform(scrollYProgress, [0.1, 0.45, 0.85], [0, 1, 0]);
   const scale = useTransform(scrollYProgress, [0.2, 0.8], [0.9, 1]);
 
-  return (
+return (
     <motion.div ref={ref} style={{ y, opacity, scale }} className="w-full">
+      {/* Force portrait feel */}
       <img
         src={src}
         alt={alt}
-        className="w-full h-auto rounded-3xl shadow-2xl"
+        className="w-full h-auto rounded-3xl shadow-2xl object-cover aspect-[4/5]"
         loading="lazy"
       />
     </motion.div>
   );
 };
+
 
 /* ===================== ParallaxImg Component (Desktop) ===================== */
 interface ParallaxImgProps {

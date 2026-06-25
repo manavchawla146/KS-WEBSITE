@@ -45,14 +45,19 @@ export default function MScPage() {
 
             <div className="lg:col-span-6">
               <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-                <p className="text-xl text-zinc-700 leading-relaxed mb-6">
-                  The M.Sc. (CA & IT) program is a five-year integrated course designed to build strong foundations in computer applications, software development and information systems. Students gain hands-on experience with modern technologies and industry-relevant projects.
-                </p>
-                <ul className="list-disc pl-5 text-zinc-600 space-y-2">
-                  <li>Core topics: Programming, Databases, Networking, Algorithms.</li>
-                  <li>Industry projects and internships with partner companies.</li>
-                  <li>Focus on applied skills, cloud, and data technologies.</li>
-                </ul>
+                <div className="prose prose-lg text-zinc-700 space-y-6">
+                  <p>
+                    Under the five year integrated programme, on successful completion of three years, students are awarded BSc degree and on completion of fifth year MSc degree.
+                  </p>
+
+                  <p>
+                    In the first three years, the focus is on teaching fundamentals in communication, mathematics etc. BSC course covers basic programming languages, web designing, basic data base and networking. The pedagogy used is core class room teaching supported with real business world examples and practical laboratory sessions.
+                  </p>
+
+                  <p>
+                    MSC syllabus includes advanced level networking, software project management etc. The pedagogy at this level is dissertation, live projects in addition to class room teaching and laboratory sessions.
+                  </p>
+                </div>
               </motion.div>
             </div>
           </motion.div>

@@ -30,14 +30,19 @@ export default function MBAPage() {
           >
             <div className="lg:col-span-6 order-2 lg:order-1">
               <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-                <p className="text-xl text-zinc-700 leading-relaxed mb-6">
-                  The Integrated MBA prepares students for leadership roles by combining management theory with practical exposure. Over five years students undertake projects, case-studies and internships that prepare them for the corporate world.
-                </p>
-                <ul className="list-disc pl-5 text-zinc-600 space-y-2">
-                  <li>Core topics: Finance, Marketing, Strategy, Operations.</li>
-                  <li>Live projects, industry mentors and placement support.</li>
-                  <li>Leadership labs and soft-skill development.</li>
-                </ul>
+                <div className="prose prose-lg text-zinc-700 space-y-6">
+                  <p>
+                    Under the five year integrated programme, on successful completion of three years, students are awarded BBA degree and on completion of fifth year MBA degree.
+                  </p>
+
+                  <p>
+                    In the first three years the focus is on teaching fundamentals in communication, mathematics etc. BBA course covers basics of management and related subjects like economics, accounting etc. The pedagogy used is core class room teaching supported with real business world examples.
+                  </p>
+
+                  <p>
+                    In the fourth and fifth years of MBA, the emphasis is on core and functional aspects of management, decision making, practical internship in companies, live projects etc. The pedagogy at this level is case study, discussion, presentations etc.
+                  </p>
+                </div>
               </motion.div>
             </div>
 

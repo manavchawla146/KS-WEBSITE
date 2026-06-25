@@ -1,5 +1,4 @@
 "use client";
-
 import React from "react";
 import { ReactLenis } from "lenis/dist/lenis-react";
 import { Nav } from "@/components/nav";
@@ -103,6 +102,29 @@ export default function AboutPage() {
                 </div>
 
                 
+              </div>
+            </div>
+            {/* Our Journey & Mission */}
+            <div className="mt-16 lg:col-span-12">
+              <p className="text-[#e31e24] font-bold uppercase tracking-[0.3em] text-[10px] mb-4">Our Journey & Mission</p>
+              <h2 className="editorial-title text-[#111111] mb-6">Our Journey & Mission</h2>
+
+              <div className="prose prose-lg text-zinc-700 space-y-6">
+                <p>
+                  K. S. School of Business Management is one of the pioneer institutes offering Integrated MBA and MSc (Computer Applications & Information Technology) in India. Established under the aegis of Gujarat University, KSSBM started with a five-year integrated programme in MBA in 1993, followed by a five-year integrated programme in MSc (CA&IT) in 1998. Both the programmes have grown in size and stature, attracting Gujarat state’s young budding students after their 12th standard from all walks of life.
+                </p>
+
+                <p>
+                  Our mission at the school is “Igniting young minds to grow in knowledge and wisdom and stand up high in the corporate world.” With continuously updated syllabi aligned with the CBCS pattern, project-based learning, and field studies, our students are nurtured and groomed to meet industry expectations. This success is made possible by a team of highly qualified faculty members with vast academic and industry experience.
+                </p>
+
+                <p>
+                  The institute is located in the lush environment of Gujarat University campus, equipped with state-of-the-art facilities such as LCD projectors, modern computer labs, and a well-stocked library. A full-fledged Placement Cell ensures that every student is career-ready, guiding them from campus to corporate success. Our alumni now shine across national and international organizations.
+                </p>
+
+                <p>
+                  To enhance students’ holistic growth, the school frequently organizes co-curricular and extracurricular activities, including academic and cultural events that provide platforms to showcase their talents.
+                </p>
               </div>
             </div>
           </div>

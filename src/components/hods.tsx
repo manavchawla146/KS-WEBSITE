@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, ReactNode } from "react";
 import { motion } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -36,7 +36,6 @@ export const HODs = () => {
           scrollTrigger: {
             trigger: el,
             start: 'top 75%',
-            toggleActions: 'play none none none',
           },
         });
         return;
@@ -46,7 +45,6 @@ export const HODs = () => {
       
       // --- INITIAL STATES ---
       
-      // 1. Text is Big
       gsap.set('.hero-text', { scale: 1, opacity: 1 });
       
       // 2. Dean starts LOWER than center (below viewport)
@@ -58,7 +56,6 @@ export const HODs = () => {
       
       // 4. Info cards start hidden
       gsap.set('.hod-card-info', { y: 20, opacity: 0 });
-
 
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -77,7 +74,6 @@ export const HODs = () => {
         scale: 0.15,     
         y: '-35vh',      
         opacity: 1,
-        ease: 'power2.inOut',
         duration: 2
       }, 0);
 
@@ -176,26 +172,26 @@ export const HODs = () => {
             <span className="absolute -bottom-2 left-1/2 h-px w-12 -translate-x-1/2 bg-gradient-to-r from-transparent via-amber-300 to-transparent" />
           </span>
         </motion.p>
-
         <HODCard
-          name="Dr. Rajesh K. Sharma"
+          name="Dr. Neerja A. Gupta"
+          role={<>Vice Chancellor<br/>(Gujarat University)</>}
+          img={encodeURI('/assets/Dr. Neerja A. Gupta.jpg')}
+          mobile
+        />
+        <HODCard
+          name="Dr. Paavan Pandit"
           role="Dean & Director"
-          img="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=500&h=650&fit=crop&crop=face"
+          img={encodeURI('/assets/Dr._Paavan_Pandit.jpg')}
           isMain
           mobile
         />
         <HODCard
-          name="Dr. Priya Mehta"
-          role="Head - Dept. of Computer Applications"
-          img="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=500&h=650&fit=crop&crop=face"
+          name="Dr. Piyush M Patel"
+          role="Registrar (I/C)"
+          img={encodeURI('/assets/Dr. Piyush M Patel.jpg')}
           mobile
         />
-        <HODCard
-          name="Prof. Anil Verma"
-          role="Head - Dept. of Management Studies"
-          img="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=500&h=650&fit=crop&crop=face"
-          mobile
-        />
+        
       </div>
 
       {/* --- DESKTOP LAYOUT --- */}
@@ -226,9 +222,9 @@ export const HODs = () => {
               style={{ marginLeft: '-310px', zIndex: 5 }}
             >
               <HODCard
-                name="Dr. Shamina Ansari"
-                role="Head - Dept. of Computer Applications"
-                img="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=500&h=650&fit=crop&crop=face"
+                name="Dr. Neerja A. Gupta"
+                role={<>Vice Chancellor<br/>(Gujarat University)</>}
+                img={encodeURI('/assets/Dr. Neerja A. Gupta.jpg')}
               />
             </div>
 
@@ -238,9 +234,9 @@ export const HODs = () => {
               style={{ zIndex: 10 }}
             >
               <HODCard
-                name="Dr. paavan pandit"
+                name="Dr. Paavan Pandit"
                 role="Dean & Director"
-                img="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=500&h=650&fit=crop&crop=face"
+                img={encodeURI('/assets/Dr._Paavan_Pandit.jpg')}
                 isMain
               />
             </div>
@@ -251,9 +247,9 @@ export const HODs = () => {
               style={{ marginLeft: '310px', zIndex: 5 }}
             >
               <HODCard
-                name="Mr. Hitesh parmar"
-                role="Head - Dept. of Management Studies"
-                img="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=500&h=650&fit=crop&crop=face"
+                name="Dr. Piyush M Patel"
+                role="Registrar (I/C)"
+                img={encodeURI('/assets/Dr. Piyush M Patel.jpg')}
               />
             </div>
 
@@ -275,7 +271,7 @@ const HODCard = ({
   mobile = false,
 }: {
   name: string;
-  role: string;
+  role: ReactNode;
   img: string;
   isMain?: boolean;
   mobile?: boolean;
